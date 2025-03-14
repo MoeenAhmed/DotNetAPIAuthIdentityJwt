@@ -27,4 +27,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetIdentityShared\DotNetIdentityShared.csproj" />
+  </ItemGroup>
+
 </Project>
