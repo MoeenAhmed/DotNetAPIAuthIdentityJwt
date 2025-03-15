@@ -35,5 +35,25 @@ namespace DotNetIdentityAPI.Controllers
 
             }
         }
+
+        //Path : api/Authentication/Token
+        [HttpPost("Token")]
+        public async Task<IActionResult> GetTokenAsync([FromBody] LoginDTO loginDTO)
+        {
+            try
+            {
+                var serviceResponse = await _userService.LoginUserAsync(loginDTO);
+                if (serviceResponse.IsSuccess)
+                {
+                    return Ok(serviceResponse);
+                }
+                return BadRequest(serviceResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new TokenResponse() { IsSuccess = false, Result = null, Message = ex.Message });
+
+            }
+        }
     }
 }
