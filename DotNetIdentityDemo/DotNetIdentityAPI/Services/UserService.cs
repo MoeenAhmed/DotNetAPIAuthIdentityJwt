@@ -1,6 +1,7 @@
 ﻿using DotNetIdentityShared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Packaging;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -41,11 +42,17 @@ namespace DotNetIdentityAPI.Services
                 };
             }
 
-            var userClaims = new Claim[]
+            var userClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, loginDTO.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
             };
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            foreach(var role in userRoles)
+            {
+                userClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
            // var jwtKey = GenerateJwtSecretKey(32); 
             

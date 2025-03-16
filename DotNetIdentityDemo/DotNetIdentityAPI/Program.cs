@@ -1,5 +1,7 @@
 using DotNetIdentityAPI.Models;
+using DotNetIdentityAPI.Seeding;
 using DotNetIdentityAPI.Services;
+using DotNetIdentityShared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +53,11 @@ builder.Services.AddAuthentication(auth =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CreateOrderPolicy", p => p.RequireRole("OrderCreator"));
+});
+
 // Register user service
 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -63,6 +70,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+await Seeding.SeedDataAndApplyPendingMigrationsAsync(app.Services);
 
 app.UseHttpsRedirection();
 
