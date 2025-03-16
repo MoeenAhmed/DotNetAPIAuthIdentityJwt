@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,8 @@ namespace DotNetIdentityShared
         [Required]
         [StringLength(maximumLength: 30, MinimumLength = 5, ErrorMessage = "Password length should be between 5-15")]
         public string Password { get; set; }
+
+        public string audience { get; set; }
 
     }
 }

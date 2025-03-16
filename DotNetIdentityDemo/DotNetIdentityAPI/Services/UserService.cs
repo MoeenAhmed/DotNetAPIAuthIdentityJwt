@@ -56,10 +56,12 @@ namespace DotNetIdentityAPI.Services
 
            // var jwtKey = GenerateJwtSecretKey(32); 
             
+            var audience = configuration["AuthSettings:Audiences"].Split(",").FirstOrDefault(x => x == loginDTO.audience);
+
             var token = new JwtSecurityToken(
 
                 issuer: configuration["AuthSettings:Issuer"],
-                audience: configuration["AuthSettings:Audience"],
+                audience: audience,
                 claims: userClaims,
                 expires: DateTime.Now.AddMinutes(5),
                 signingCredentials: new SigningCredentials(

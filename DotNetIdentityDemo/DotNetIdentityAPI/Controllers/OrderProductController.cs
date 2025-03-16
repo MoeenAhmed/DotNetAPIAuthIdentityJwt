@@ -19,14 +19,18 @@ namespace DotNetIdentityAPI.Controllers
             _context = context;
         }
 
+        [Authorize("ValidClient1AudiencePolicy")]
         [Authorize("CreateOrderPolicy")]
+        //[Authorize("CustomCreateOrderPolicy")]
         [HttpPost("CreateOrders")]
         public async Task<IActionResult> CreateOrders()
         {
             return Ok("order created successfully");
         }
 
-        [RequireClaimAttribute(ClaimTypes.Role, "ProductCreator")]
+        // [RequireClaimAttribute(ClaimTypes.Role, "ProductCreator")]
+        [Authorize("ValidClient2AudiencePolicy")]
+        [Authorize(policy: "CreateProductPolicy")]
         [HttpPost("CreateProduct")]
         public async Task<IActionResult> CreateProduct()
         {
